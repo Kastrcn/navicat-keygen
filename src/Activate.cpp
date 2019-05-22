@@ -145,13 +145,13 @@ BOOL CALLBACK EnumChild(HWND hWnd, LPARAM lParam)
 /*
 * 生成许可文件
 */
-HRESULT GenLic(RSA *pRSA, const CAtlStringA& szName, const CAtlStringA& szOrg, CAtlString& szLic)
+HRESULT GenLic(RSA *pRSA, LPCSTR szName, LPCSTR szOrg, CAtlString& szLic)
 {
     HRESULT hr = S_OK;
     CHeapPtr<BYTE> pBin;
     CHeapPtr<CHAR> pText;
 
-    DWORD nBin = szLic.GetLength() * 2 + strlen(szName) + strlen(szOrg);
+    DWORD nBin = szLic.GetLength() * 2 + static_cast<int>(strlen(szName) + strlen(szOrg));
     pBin.AllocateBytes(nBin);
     BOOL_CHECK(::CryptStringToBinary(szLic, szLic.GetLength(), CRYPT_STRING_BASE64, pBin, &nBin, NULL, NULL));
 
@@ -244,7 +244,8 @@ LRESULT CMainDlg::OnActive(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/,
     // 生成许可文件
     if (nIndex == Navicat12)
     {
-        hr = GenLic(pRSA, szName.GetString(), szOrg.GetString(), szLic);
+        USES_CONVERSION_EX;
+        hr = GenLic(pRSA, W2A_CP_EX(szName, szName.GetLength() * 4, CP_UTF8), W2A_CP_EX(szOrg, szOrg.GetLength() * 4, CP_UTF8), szLic);
         if (SUCCEEDED(hr))
         {
             hr = ::EnumChildWindows(hForm, EnumChild, (LPARAM)&szLic);

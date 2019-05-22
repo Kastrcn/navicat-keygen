@@ -60,11 +60,11 @@ exit:
     return TRUE;
 }
 
-LRESULT CMainDlg::OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+LRESULT CMainDlg::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
     DestroyWindow();
-    ::PostQuitMessage(wID);
-    return 0;
+    PostQuitMessage(wID);
+    return S_OK;
 }
 
 LRESULT CMainDlg::OnPatch(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)

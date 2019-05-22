@@ -388,7 +388,7 @@ HRESULT CPatch::Patch3(LPCSTR pData, int nLen)
                 if (off < 0) return ERROR_INVALID_DATA;
                 if ((offset += off) > pRdata->SizeOfRawData) return ERROR_INVALID_DATA;
 
-            } while (mapReloc.IsReloc(pRdata->VirtualAddress + offset++, pPatch[i].length + 1));
+            } while (mapReloc.IsReloc(pRdata->VirtualAddress + offset++, static_cast<DWORD>(pPatch[i].length + 1)));
 
             uint64_t disp = 0;
             memcpy(&disp, pPatch[i].patch, pPatch[i].length);

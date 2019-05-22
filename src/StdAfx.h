@@ -27,8 +27,8 @@ extern CComModule _Module;
 
 #define KEY_BIT 2048
 
-#define HR_CHECK(_hr_) hr = _hr_; if (FAILED(hr)) { goto exit; }
-#define BOOL_CHECK(_hr_) if (!(_hr_)) { hr = HRESULT_FROM_WIN32(::GetLastError()); goto exit; }
+#define HR_CHECK(_hr_) hr = _hr_; if (FAILED(hr)) { ATLTRACE(TEXT("0x%.8x\n"), hr); goto exit; }
+#define BOOL_CHECK(_hr_) if (!(_hr_)) { hr = HRESULT_FROM_WIN32(::GetLastError()); ATLTRACE(TEXT("0x%.8x\n"), hr); goto exit; }
 
 #include "Resource.h"
 
