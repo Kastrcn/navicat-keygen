@@ -22,7 +22,7 @@ typedef struct
 typedef CAtlArray<cs_ctx> cs_patch;
 typedef bool(*CheckFunc)(CPatch*, cs_insn*, cs_ctx&);
 
-template<CheckFunc Match, CheckFunc Patch = NULL>
+template<CheckFunc Match, CheckFunc Patch>
 void FindPatch(CPatch *p, csh h, cs_ctx& ctx, cs_patch* patch = NULL)
 {
     // Find patch offset
@@ -81,10 +81,10 @@ int HandleJcc(CPatch *p, csh h, cs_ctx ctx, cs_ctx jumped)
     CHelpPtr<cs_insn> insn = cs_malloc(h);
     do {
         // process branch origin
-        FindPatch<Match>(p, h, ctx);
+        FindPatch<Match, NULL>(p, h, ctx);
         if (ctx.origin == NULL) break;
         // process branch jumped
-        FindPatch<Match>(p, h, jumped);
+        FindPatch<Match, NULL>(p, h, jumped);
         if (jumped.origin == NULL) break;
         // judge branch
     } while (ctx.origin != jumped.origin);
