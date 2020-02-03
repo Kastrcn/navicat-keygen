@@ -39,7 +39,9 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
     hCombox = GetDlgItem(IDC_VERSION);
     ComboBox_SetItemData(hCombox, ComboBox_AddString(hCombox, TEXT("v11")), 0xB0);
     ComboBox_SetItemData(hCombox, ComboBox_AddString(hCombox, TEXT("v12")), 0xC0);
-    ComboBox_SetCurSel(hCombox, 1);
+	ComboBox_SetItemData(hCombox, ComboBox_AddString(hCombox, TEXT("v15")), 0xF0);
+    ComboBox_SetItemData(hCombox, ComboBox_AddString(hCombox, TEXT("v3")), 0x30);
+	ComboBox_SetCurSel(hCombox, Navicat15);
     OnChanged(0, 0, hCombox, bHandled);
 
     // 语言选择
@@ -117,7 +119,11 @@ LRESULT CMainDlg::OnChanged(WORD /*wNotifyCode*/, WORD /*wID*/, HWND hWndCtl, BO
     HWND hCombox = GetDlgItem(IDC_PRODUCT);
     int nProduct = ComboBox_GetCurSel(hCombox);
     ComboBox_ResetContent(hCombox);
-    if (nIndex == Navicat12)
+    if (nIndex == DataModeler3)
+    {
+        ComboBox_SetItemData(hCombox, ComboBox_AddString(hCombox, TEXT("Navicat Data Modeler")), 0x84);
+    }
+    else if (nIndex != Navicat11)
     {
         ComboBox_SetItemData(hCombox, ComboBox_AddString(hCombox, TEXT("Navicat Premium")), 0x65);
         ComboBox_SetItemData(hCombox, ComboBox_AddString(hCombox, TEXT("Navicat for MySQL")), 0x68);
@@ -129,7 +135,7 @@ LRESULT CMainDlg::OnChanged(WORD /*wNotifyCode*/, WORD /*wID*/, HWND hWndCtl, BO
         ComboBox_SetItemData(hCombox, ComboBox_AddString(hCombox, TEXT("Navicat Premium Essentials")), 0x67);
         ComboBox_SetItemData(hCombox, ComboBox_AddString(hCombox, TEXT("Navicat for MongoDB")), 0x80);
     }
-    else if (nIndex == Navicat11)
+    else 
     {
         ComboBox_SetItemData(hCombox, ComboBox_AddString(hCombox, TEXT("Navicat Premium")), 0x15);
         ComboBox_SetItemData(hCombox, ComboBox_AddString(hCombox, TEXT("Navicat for MySQL")), 0x01);
@@ -166,7 +172,19 @@ DWORD CALLBACK CMainDlg::ThreadPatch(LPVOID lpParam)
         }
         ComboBox_SetCurSel(hCombox, Navicat12);
     }
-    else
+    else if (HIWORD(pVersion->dwFileVersionMS) == 0x0F) // Navicat 15
+	{
+		::PathRemoveFileSpec(pDlg->szFile);
+		::PathCombine(pDlg->szFile, pDlg->szFile, TEXT("libcc.dll"));
+		ComboBox_SetCurSel(hCombox, Navicat15);
+	}
+    else if (HIWORD(pVersion->dwFileVersionMS) == 0x03) // DataModeler 3
+    {
+        ::PathRemoveFileSpec(pDlg->szFile);
+        ::PathCombine(pDlg->szFile, pDlg->szFile, TEXT("libcc.dll"));
+        ComboBox_SetCurSel(hCombox, DataModeler3);
+    }
+    else if (HIWORD(pVersion->dwFileVersionMS) == 0x0B || HIWORD(pVersion->dwFileVersionMS) == 0x02) // Navicat 11 & DataModeler 2
     {
         ComboBox_SetCurSel(hCombox, Navicat11);
     }

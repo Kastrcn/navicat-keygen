@@ -8,6 +8,7 @@ private:
     HRESULT Patch1(LPCSTR pData, int nLen);
     HRESULT Patch2(LPCSTR pData, int nLen);
     HRESULT Patch3(LPCSTR pData, int nLen);
+	HRESULT Patch4(LPCSTR pData, int nLen);
 
 public:
     static int TrimKey(LPCSTR pSrc, PSTR pDst, int nKey);
@@ -17,6 +18,7 @@ public:
     HRESULT Patch(LPCTSTR szPath, VS_FIXEDFILEINFO *pVer);
 
     PIMAGE_SECTION_HEADER Section(LPCSTR szName);
+    DWORD Reserved(DWORD cbSize);
     PBYTE RVA(UINT64 uRva);
 
 public:

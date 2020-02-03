@@ -17,8 +17,12 @@ extern CComModule _Module;
 #include <Imagehlp.h>
 #pragma comment(lib, "WS2_32.lib")      // some symbol are used in OpenSSL static lib
 #pragma comment(lib, "Crypt32.lib")     // some symbol are used in OpenSSL static lib
-#pragma comment(lib, "version.lib") 
-#pragma comment(lib, "Imagehlp.lib") 
+#pragma comment(lib, "version.lib")
+#pragma comment(lib, "Imagehlp.lib")
+
+#pragma comment(lib, "libeay32.lib")
+#pragma comment(lib, "capstone.lib")
+#pragma comment(lib, "keystone.lib")
 
 // OpenSSL 1.0.2 precompiled lib, download from http://slproweb.com/products/Win32OpenSSL.html,
 // direct link http://slproweb.com/download/Win32OpenSSL-1_0_2q.exe

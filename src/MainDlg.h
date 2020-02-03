@@ -30,7 +30,9 @@ public:
 private:
     enum {
         Navicat11 = 0,
-        Navicat12
+        Navicat12,
+		Navicat15,
+        DataModeler3
     };
 
     HRESULT Block();

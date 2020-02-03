@@ -19,6 +19,7 @@ public:
     CHelpPtr(T *p) : pT(p) {}
     ~CHelpPtr() { if (pT != NULL) CHelpPtrTrait<T>::Close(pT); }
     operator T*() { return pT; }
+    T** operator &() { return &pT; }
     T* operator ->() { return pT; }
     template <typename N> N *Get() { return reinterpret_cast<N*>(pT); }
 protected:

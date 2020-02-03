@@ -3,7 +3,6 @@
 #include "Helper.h"
 
 #include <capstone/capstone.h>
-#pragma comment(lib, "capstone.lib") 
 
 DECLARE_TRAIT(cs_insn, cs_free, 1);
 

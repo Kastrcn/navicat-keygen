@@ -206,7 +206,7 @@ LRESULT CMainDlg::OnActive(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/,
     CAtlString szLic;
     HWND hForm = NULL;
     int nIndex = (int)SendDlgItemMessage(IDC_VERSION, CB_GETCURSEL);
-    if (nIndex == Navicat12)
+    if (nIndex != Navicat11)
     {
         hForm = ::FindWindowEx(NULL, NULL, TEXT("TManualActivationSubForm"), NULL);
         if (!::IsWindow(hForm)) hForm = ::FindWindowEx(NULL, NULL, TEXT("TManualActivationForm"), NULL);
@@ -214,7 +214,7 @@ LRESULT CMainDlg::OnActive(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/,
         // 获取注册信息
         ::EnumChildWindows(hForm, EnumChild, (LPARAM)&szLic);
     }
-    else if (nIndex == Navicat11)
+    else
     {
         hForm = ::FindWindowEx(NULL, NULL, TEXT("TRegistrationForm"), NULL);
         if (!::IsWindow(hForm)) return Block();
@@ -242,7 +242,7 @@ LRESULT CMainDlg::OnActive(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/,
    
     HRESULT hr = S_OK;
     // 生成许可文件
-    if (nIndex == Navicat12)
+    if (nIndex != Navicat11)
     {
         USES_CONVERSION_EX;
         hr = GenLic(pRSA, W2A_CP_EX(szName, szName.GetLength() * 4, CP_UTF8), W2A_CP_EX(szOrg, szOrg.GetLength() * 4, CP_UTF8), szLic);
@@ -251,7 +251,7 @@ LRESULT CMainDlg::OnActive(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/,
             hr = ::EnumChildWindows(hForm, EnumChild, (LPARAM)&szLic);
         }
     }
-    else if (nIndex == Navicat11)
+    else
     {
         hr = ExportLic(pRSA, szName.GetString(), szOrg.GetString(), szLic, m_hWnd);
     }
