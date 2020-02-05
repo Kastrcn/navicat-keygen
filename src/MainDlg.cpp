@@ -219,6 +219,7 @@ LRESULT CMainDlg::OnPatchEnd(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BO
     for (int i = IDC_GENERATE; i <= IDC_ORGANIZATION; i++)
         GetDlgItem(i).EnableWindow(TRUE);
 
-    ::FormatMessage(FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_FROM_SYSTEM, NULL, DWORD(wParam), 0, szFile, _countof(szFile), NULL);
+    if (HRESULT(wParam) == HRESULT_FROM_WIN32(ERROR_NOT_FOUND))  ::LoadString(_Module.m_hInst, IDS_NOTFOUND, szFile, _countof(szFile));
+    else ::FormatMessage(FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_FROM_SYSTEM, NULL, DWORD(wParam), 0, szFile, _countof(szFile), NULL);
     return MessageBox(szFile, szTitle, SUCCEEDED(wParam) ? MB_ICONINFORMATION : MB_ICONERROR);;
 }

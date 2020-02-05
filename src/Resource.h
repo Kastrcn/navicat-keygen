@@ -12,6 +12,8 @@
 #define IDS_NOTNAVICAT             406
 #define IDS_VERNOTMATCH            407
 #define IDS_BUSY                   408
+#define IDS_NOTFOUND               409
+#define IDS_INVALIDDATA            410
 #define IDC_GENERATE               1001
 #define IDC_PATCH                  1002
 #define IDC_ACTIVATE               1003

@@ -155,7 +155,7 @@ HRESULT GenLic(RSA *pRSA, LPCSTR szName, LPCSTR szOrg, CAtlString& szLic)
     pBin.AllocateBytes(nBin);
     BOOL_CHECK(::CryptStringToBinary(szLic, szLic.GetLength(), CRYPT_STRING_BASE64, pBin, &nBin, NULL, NULL));
 
-    DWORD nText = nBin * 2;
+    DWORD nText = nBin * 4;
     pText.AllocateBytes(nText);
     if (!RSA_private_decrypt(nBin, pBin, (PBYTE)(PSTR)pText, pRSA, RSA_PKCS1_PADDING)) return E_FAIL;
 
@@ -257,6 +257,7 @@ LRESULT CMainDlg::OnActive(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/,
     }
 
     if (SUCCEEDED(hr)) return S_OK;
-    ::FormatMessage(FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_FROM_SYSTEM, NULL, hr, 0, szPath, _countof(szPath), NULL);
-    return MessageBox(szPath, szTitle, SUCCEEDED(hr) ? MB_ICONINFORMATION : MB_ICONERROR);
+    if (hr == HRESULT_FROM_WIN32(ERROR_INVALID_DATA)) ::LoadString(_Module.m_hInst, IDS_INVALIDDATA, szPath, _countof(szPath));
+    else ::FormatMessage(FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_FROM_SYSTEM, NULL, hr, 0, szPath, _countof(szPath), NULL);
+    return MessageBox(szPath, szTitle, MB_ICONERROR);
 }
